@@ -3,82 +3,101 @@
  * 2022 Spring
  */
 #include "utils.h"
-
+#include <stdlib.h>
 /*
  * Add your unoptimized implementation here
  */
 double* my_solver(int N, double *A, double* B) {
 	printf("NEOPT SOLVER\n");
 
-	double *At = (double *)calloc(N * N, sizeof(double));
-	double *Bt = (double *)calloc(N * N, sizeof(double));
+	double *A_transpose = (double *)calloc(N * N, sizeof(double));
+	double *B_transpose = (double *)calloc(N * N, sizeof(double));
 	
-	int index = -1;
-	int index1 = -1;
-	int index2 = -1;
-	
-
+	int index_result = -1;
+	int index_left = -1;
+	int index_right = -1;
 	int i, j, k;
-	// calculate A^t and B^t
-	for ( i = 0; i < N; i++) {
-		for ( j = 0; j < N; j++) {
-			index1 = i * N + j;
-			index2 = j * N + i;
 
-			At[index2] = A[index1];
-			Bt[index2] = B[index1];
-		}
+for ( i = 0; i < N; i++) {
+	for ( j = 0; j < N; j++) {
+		index_left = i * N + j;
+		index_right = j * N + i;
+
+		A_transpose[index_right] = A[index_left];
+		B_transpose[index_right] = B[index_left];
 	}
+}
 	
-	double *temp1 = (double *)calloc(N * N, sizeof(double));
-	double *temp2 = (double *)calloc(N * N, sizeof(double));
-
-	index1 = -1;
-	index2 = -1;
-
-	// calculate A*A^t and B^t*B
-	for ( i = 0; i < N; i++) {
-		for ( j = 0; j < N; j++) {
-			index = i * N + j;
-			for ( k = 0; k < N; k++) {
-				index1 = i * N + k;
-				index2 = k * N + j;
-				
-				temp1[index] += A[index1] * At[index2];
-				temp2[index] += Bt[index1] * B[index2];
-			}
-		}
-	}
+	double *A_A_transpose = (double *)calloc(N * N, sizeof(double));
 	
-	index1 = -1;
-	index2 = -1;
 
-double *temp3 = (double *)calloc(N * N, sizeof(double));
+	index_left = -1;
+	index_right = -1;
+
 
 	for ( i = 0; i < N; i++) {
 		for ( j = 0; j < N; j++) {
-			index = i * N + j;
-			for ( k = 0; k < N; k++) {
-				index1 = i * N + k;
-				index2 = k * N + j;
+			index_result = i * N + j;
+			for ( k = j;  k < N; k++) {
+				index_left = i * N + k;
+				index_right = k * N + j;
 				
-				temp3[index] += B[index1] * temp1[index2];
-
+				A_A_transpose[index_result] += A[index_left] * 
+										A_transpose[index_right];
 			}
 		}
 	}
 
-	double *res = (double *)calloc(N * N, sizeof(double));
+	double *B_transpose_B = (double *)calloc(N * N, sizeof(double));
 
-	for (i = 0; i < N * 2; i++) {
-		res[i] = temp3[i] + temp2[i];
+	index_left = -1;
+	index_right = -1;
+
+
+	for ( i = 0; i < N; i++) {
+		for ( j = 0; j < N; j++) {
+			index_result = i * N + j;
+			for ( k = 0;  k < N; k++) {
+				index_left = i * N + k;
+				index_right = k * N + j;
+				
+				B_transpose_B[index_result] += B_transpose[index_left] * 
+										B[index_right];
+			}
+		}
+	}
+	
+	index_left = -1;
+	index_right = -1;
+
+double *temp = (double *)calloc(N * N, sizeof(double));
+
+	for ( i = 0; i < N; i++) {
+		for ( j = 0; j < N; j++) {
+			index_result = i * N + j;
+			for ( k = 0; k < N; k++) {
+				index_left = i * N + k;
+				index_right = k * N + j;
+				
+				temp[index_result] += B[index_left] * 
+										A_A_transpose[index_right];
+
+			}
+		}
 	}
 
-	free(temp1);
-	free(temp2);
-	free(temp3);
-	free(At);
-	free(Bt);
+	double *result = (double *)calloc(N * N, sizeof(double));
 
-	return res;
+	for (i = 0; i < N * N; i++) {
+		result[i] = temp[i] + B_transpose_B[i];
+	}
+
+	free(A_transpose);
+	free(B_transpose);
+	free(A_A_transpose);
+	free(B_transpose_B);
+	free(temp);
+	
+
+	return result;
 }
