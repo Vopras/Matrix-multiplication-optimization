@@ -17,41 +17,41 @@ double* my_solver(int N, double *A, double* B) {
 	int index = -1;
 	int i, j, k;
 
-	for (i = 0; i < N; i++) {
-		double * ai = &A[i * N];
-		double * bi = &B[i * N];
-		for (j = 0; j < N; j++) {
-			index = j * N + i;
+	// for (i = 0; i < N; i++) {
+	// 	register double * ai = &A[i * N];
+	// 	register double * bi = &B[i * N];
+	// 	for (j = 0; j < N; j++) {
+	// 		index = j * N + i;
 		
-			At[index] = *ai;
-			Bt[index] = *bi;
+	// 		At[index] = *ai;
+	// 		Bt[index] = *bi;
 
-			ai++;
-			bi++;
-		}
-	}
+	// 		ai++;
+	// 		bi++;
+	// 	}
+	// }
 
 	double *p1 = (double *)calloc(N * N, sizeof(double));
 	double *p12 = (double *)calloc(N * N, sizeof(double));
 
 
 	//B*A
-	for (i = 0; i < N; i++) {
-    double *orig_pb = &B[i * N];
+for (i = 0; i < N; i++) {
+    double *orig_p1 = &p1[i * N];
 
     for (j = 0; j < N; j++) {
         register double suma = 0.0;
         index = i * N + j;
-        register double *pb = orig_pb;
-        register double *pa = &A[j];
+        double *pp1 = orig_p1;
+        double *pat = &A[j * N];
 
-        for (k = 0; k <= j; k++) {
+        for (k = 0; k < N; k++) {
             
-            suma += *pb * *pa;
-            pa += N;
-            pb++;
+            suma += *pp1 * *pat;
+            pat++;
+            pp1++;
         }
-        p1[index] = suma;
+        p12[index] = suma;
     }
 }
 
@@ -79,23 +79,23 @@ for (i = 0; i < N; i++) {
 
 	//B*Bt
 	for (i = 0; i < N; i++) {
-		double *orig_pb = &B[i * N];
-		for (j = 0; j < N; j++) {
+    double *orig_pb = &B[i * N];
+    for (j = 0; j < N; j++) {
 
-			register double suma = 0.0;
-			index = i * N + j;
-			register double *pb = orig_pb;
-			register double *pbt = &Bt[j];
+        register double suma = 0.0;
+        index = i * N + j;
+        register double *pb = orig_pb;
+        register double *pbt = &B[j * N];
 
-			for (k = 0; k < N; k++) {
-				
-				suma += *pb * *pbt;
-				pbt += N;
-				pb++;
-			}
-			p3[index] = suma;
-		}
-	}
+        for (k = 0; k < N; k++) {
+            
+            suma += *pb * *pbt;
+            pbt++;
+            pb++;
+        }
+        p3[index] = suma;
+    }
+}
 
 
 	double *result = (double *)calloc(N * N, sizeof(double));
