@@ -37,43 +37,45 @@ double* my_solver(int N, double *A, double* B) {
 
 	//B*A
 	for (i = 0; i < N; i++) {
-		double *orig_pb = &B[i * N];
-		for (j = 0; j < N; j++) {
+    double *orig_pb = &B[i * N];
 
-			register double suma = 0.0;
-			index = i * N + j;
-			double *pb = orig_pb;
-			double *pa = &A[j];
+    for (j = 0; j < N; j++) {
+        register double suma = 0.0;
+        index = i * N + j;
+        double *pb = orig_pb;
+        double *pa = &A[j];
 
-			for (k = 0; k <= j; k++) {
-				
-				suma += *pb * *pa;
-				pa += N;
-				pb++;
-			}
-			p1[index] = suma;
-		}
-	}
+        for (k = 0; k <= j; k++) {
+            
+            suma += *pb * *pa;
+            pa += N;
+            pb++;
+        }
+        printf("suma = %f\n", suma);
+        p1[index] = suma;
+    }
+}
 
 	//(B*A)*At
-	for (i = 0; i < N; i++) {
-		double *orig_p1 = &p1[i * N];
-		for (j = 0; j < N; j++) {
+for (i = 0; i < N; i++) {
+    double *orig_p1 = &p1[i * N];
 
-			register double suma = 0.0;
-			index = i * N + j;
-			double *p1 = orig_p1;
-			double *pat = &At[j];
+    for (j = 0; j < N; j++) {
+        register double suma = 0.0;
+        index = i * N + j;
+        double *pp1 = orig_p1;
+        double *pat = &At[j];
 
-			for (k = 0; k < N; k++) {
-				
-				suma += *p1 * *pat;
-				pat += N;
-				p1++;
-			}
-			p12[index] = suma;
-		}
-	}
+        for (k = 0; k < N; k++) {
+            
+            suma += *pp1 * *pat;
+            pat += N;
+            pp1++;
+        }
+        printf("suma = %f\n", suma);
+        p12[index] = suma;
+    }
+}
 
 	double *p3 = (double *)calloc(N * N, sizeof(double));
 
@@ -110,7 +112,11 @@ double* my_solver(int N, double *A, double* B) {
 		pp3++;
 	}
 
-
+	free(At);
+	free(Bt);
+	free(p1);
+	free(p12);
+	free(p3);
 
 
 	return result;	
