@@ -60,21 +60,21 @@ for (i = 0; i < N; i++) {
 
 	double *p3 = (double *)calloc(N * N, sizeof(double));
 
-	//B*Bt
+	//Bt*B
 	for (i = 0; i < N; i++) {
-    double *orig_pb = &B[i * N];
+    double *orig_pb = &B[i];
     for (j = 0; j < N; j++) {
 
         register double suma = 0.0;
         index = i * N + j;
-        register double *pb = orig_pb;
-        register double *pbt = &B[j * N];
+        register double *pb =  &B[j];
+        register double *pbt = orig_pb;
 
         for (k = 0; k < N; k++) {
             
             suma += *pb * *pbt;
-            pbt++;
-            pb++;
+            pbt += N;
+            pb += N;
         }
         p3[index] = suma;
     }
@@ -83,7 +83,7 @@ for (i = 0; i < N; i++) {
 
 	double *result = (double *)calloc(N * N, sizeof(double));
 
-	//((B*Bt)*At) + (B*Bt)
+	//((B*Bt)*At) + (Bt*B)
 	register double *pp12 = &p12[0];
 	register double *pp3 = &p3[0];
 
