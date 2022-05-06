@@ -20,7 +20,7 @@ double* my_solver(int N, double *A, double *B) {
 	cblas_dgemm(CblasRowMajor, CblasTrans, CblasNoTrans, N, N, N, 1, B, N, B, N, 0, aux3, N);
 
 	for (i = 0; i < N * N; i++) {
-		result[i] = temp[i] + B_transpose_B[i];
+		result[i] = aux2[i] + aux3[i];
 	}
 
 
