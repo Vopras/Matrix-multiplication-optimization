@@ -19,6 +19,7 @@ double* my_solver(int N, double *A, double *B) {
 	cblas_dgemm(CblasRowMajor, CblasNoTrans, CblasTrans, N, N, N, 1, aux, N, A, N, 0, aux2, N);
 	cblas_dgemm(CblasRowMajor, CblasTrans, CblasNoTrans, N, N, N, 1, B, N, B, N, 0, aux3, N);
 
+	int i;
 	for (i = 0; i < N * N; i++) {
 		result[i] = aux2[i] + aux3[i];
 	}
