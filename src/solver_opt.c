@@ -11,25 +11,8 @@
 double* my_solver(int N, double *A, double* B) {
 	printf("OPT SOLVER\n");
 
-	double *At = (double *)calloc(N * N, sizeof(double));
-	double *Bt = (double *)calloc(N * N, sizeof(double));
-
 	int index = -1;
 	int i, j, k;
-
-	// for (i = 0; i < N; i++) {
-	// 	register double * ai = &A[i * N];
-	// 	register double * bi = &B[i * N];
-	// 	for (j = 0; j < N; j++) {
-	// 		index = j * N + i;
-		
-	// 		At[index] = *ai;
-	// 		Bt[index] = *bi;
-
-	// 		ai++;
-	// 		bi++;
-	// 	}
-	// }
 
 	double *p1 = (double *)calloc(N * N, sizeof(double));
 	double *p12 = (double *)calloc(N * N, sizeof(double));
@@ -42,8 +25,8 @@ for (i = 0; i < N; i++) {
     for (j = 0; j < N; j++) {
         register double suma = 0.0;
         index = i * N + j;
-        double *pp1 = orig_p1;
-        double *pat = &A[j * N];
+        register double *pp1 = orig_p1;
+        register double *pat = &A[j * N];
 
         for (k = 0; k < N; k++) {
             
