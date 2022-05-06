@@ -26,7 +26,7 @@ for (i = 0; i < N; i++) {
         register double suma = 0.0;
         index = i * N + j;
         register double *pp1 = orig_p1;
-        register double *pat = &A[j * N];
+        register double *pat = &A[j];
 
         for (k = 0; k < N; k++) {
             
@@ -46,7 +46,7 @@ for (i = 0; i < N; i++) {
         register double suma = 0.0;
         index = i * N + j;
         register double *pp1 = orig_p1;
-        register double *pat = &At[j];
+        register double *pat = &A[j * N];
 
         for (k = 0; k < N; k++) {
             
@@ -93,8 +93,6 @@ for (i = 0; i < N; i++) {
 		pp3++;
 	}
 
-	free(At);
-	free(Bt);
 	free(p1);
 	free(p12);
 	free(p3);
