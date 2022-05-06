@@ -20,21 +20,21 @@ double* my_solver(int N, double *A, double* B) {
 
 	//B*A
 for (i = 0; i < N; i++) {
-    double *orig_p1 = &p1[i * N];
+    double *orig_pb = &B[i * N];
 
     for (j = 0; j < N; j++) {
         register double suma = 0.0;
         index = i * N + j;
-        register double *pp1 = orig_p1;
-        register double *pat = &A[j];
+        register double *pb = orig_pb;
+        register double *pa = &A[j];
 
-        for (k = 0; k < N; k++) {
+        for (k = 0; k <= j; k++) {
             
-            suma += *pp1 * *pat;
-            pat++;
-            pp1++;
+            suma += *pb * *pa;
+            pa += N;
+            pb++;
         }
-        p12[index] = suma;
+        p1[index] = suma;
     }
 }
 
@@ -51,7 +51,7 @@ for (i = 0; i < N; i++) {
         for (k = 0; k < N; k++) {
             
             suma += *pp1 * *pat;
-            pat += N;
+            pat++;
             pp1++;
         }
         p12[index] = suma;
@@ -84,8 +84,8 @@ for (i = 0; i < N; i++) {
 	double *result = (double *)calloc(N * N, sizeof(double));
 
 	//((B*Bt)*At) + (B*Bt)
-	double *pp12 = &p12[0];
-	double *pp3 = &p3[0];
+	register double *pp12 = &p12[0];
+	register double *pp3 = &p3[0];
 
 	for (i = 0; i < N * N; i++) {
 		result[i] = *pp12 + *pp3;
