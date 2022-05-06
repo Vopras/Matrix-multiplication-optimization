@@ -51,7 +51,7 @@ double* my_solver(int N, double *A, double* B) {
             pa += N;
             pb++;
         }
-        printf("suma = %f\n", suma);
+        // printf("suma = %f\n", suma);
         p1[index] = suma;
     }
 }
@@ -72,7 +72,7 @@ for (i = 0; i < N; i++) {
             pat += N;
             pp1++;
         }
-        printf("suma = %f\n", suma);
+        // printf("suma = %f\n", suma);
         p12[index] = suma;
     }
 }
