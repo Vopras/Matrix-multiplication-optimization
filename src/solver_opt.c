@@ -42,8 +42,8 @@ double* my_solver(int N, double *A, double* B) {
     for (j = 0; j < N; j++) {
         register double suma = 0.0;
         index = i * N + j;
-        double *pb = orig_pb;
-        double *pa = &A[j];
+        register double *pb = orig_pb;
+        register double *pa = &A[j];
 
         for (k = 0; k <= j; k++) {
             
@@ -62,8 +62,8 @@ for (i = 0; i < N; i++) {
     for (j = 0; j < N; j++) {
         register double suma = 0.0;
         index = i * N + j;
-        double *pp1 = orig_p1;
-        double *pat = &At[j];
+        register double *pp1 = orig_p1;
+        register double *pat = &At[j];
 
         for (k = 0; k < N; k++) {
             
@@ -84,8 +84,8 @@ for (i = 0; i < N; i++) {
 
 			register double suma = 0.0;
 			index = i * N + j;
-			double *pb = orig_pb;
-			double *pbt = &Bt[j];
+			register double *pb = orig_pb;
+			register double *pbt = &Bt[j];
 
 			for (k = 0; k < N; k++) {
 				
